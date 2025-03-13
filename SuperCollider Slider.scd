@@ -35,8 +35,8 @@ fork{
 (
 var columns, win, slider, temp, temp2, fixedx, userView, visColumns;
 
-columns = [0.1, 0.3, 0.5, 0.7, 0.9];
-visColumns = [0.2, 0.4, 0.6, 0.8];
+
+columns = [0.25, 0.5, 0.75, 1];
 win = Window("2D Slider", Rect(200, 200, 300, 300)).front;
 slider = Slider2D(win, Rect(20, 20, 260, 260)).background_(Color.gray).action_({|sld|
 	temp = sld.y.linexp(0,1,200,1000);
@@ -44,18 +44,16 @@ slider = Slider2D(win, Rect(20, 20, 260, 260)).background_(Color.gray).action_({
 
 
 
-	if (sld.x<= 0.2, {temp2 = 0.5;},
-		{if (sld.x<= 0.4, {temp2 = 1;},
-			{if (sld.x<= 0.6, {temp2 = 1.5;},
-				{if (sld.x<= 0.8, {temp2 = 2;},
-					{if (sld.x<= 1, {temp2 = 2.5;});
-				});
-			});
-		});
-	});
+	if (sld.x<= 0.25, {temp2 = 0.5;},
+		{if (sld.x<= 0.5, {temp2 = 1;},
+			{if (sld.x<= 0.75, {temp2 = 1.5;},
+				{if (sld.x<= 1, {temp2 = 2;}) }
+			)}
+		)}
+	);
 
 	[temp, temp2].postln;
-});
+	});
 
 fixedx = 0.2;
 
@@ -65,7 +63,7 @@ userView = UserView(win, slider.bounds)
 .acceptsMouse_(false)
 .drawFunc_({
 	var lineX;
-	 visColumns.do { |col|
+	 columns.do { |col|
             lineX = slider.bounds.width * col;
 	Pen.color = Color.black;
 	Pen.line(Point(lineX, 0), Point(lineX, slider.bounds.height));
